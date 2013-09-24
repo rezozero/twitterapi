@@ -101,7 +101,15 @@ class Twitter {
 		$code = static::api()->response['code'];
 
 		if ($code === 200) {
-			return json_decode($response, false, 512, JSON_BIGINT_AS_STRING);
+			if (defined(JSON_BIGINT_AS_STRING)) {
+				return json_decode($response, false, 512, JSON_BIGINT_AS_STRING);
+			}
+			else {
+				/*
+				 * May lead to tweet id errors !!
+				 */
+				return json_decode($response, false);
+			}
 		}
 
 		return false;
