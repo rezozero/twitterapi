@@ -134,6 +134,31 @@ class Twitter {
 		$response = static::api()->response['response'];
 		$code = static::api()->response['code'];
 
+
+		if ($code === 200) {
+			return json_decode($response, false, 512, JSON_BIGINT_AS_STRING);
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Search tweets
+	 *
+	 * @param  string $q 
+	 * @return object $response
+	 */
+	public static function search ( $q = null, $count = 5 ) {
+		static::api()->request('GET', static::api()->url('1.1/search/tweets.json?'), array(
+			'q' => $q,
+			'count' =>$count,
+			'include_entities' => false
+		));
+
+		$response = static::api()->response['response'];
+		$code = static::api()->response['code'];
+
 		if ($code === 200) {
 			return json_decode($response, false, 512, JSON_BIGINT_AS_STRING);
 		}
